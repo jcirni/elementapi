@@ -1,0 +1,21 @@
+{
+  "name": "elementapi",
+  "version": "1.0.0",
+  "description": "foundation for internal Element API",
+  "main": "server.js",
+  "dependencies": {
+     "express": "~4.0.0",
+     "mongoose":"3.6.13",
+     "body-parser": "~1.0.1"
+     },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "element",
+    "api",
+    "nodejs"
+  ],
+  "author": "Joseph Cirnigliaro",
+  "license": "ISC"
+}
