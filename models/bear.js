@@ -9,7 +9,7 @@ var bearSchema = new schema({
    name: String
 });
 
-module.exports = mongoose.model('Bear', bearSchema);
+module.exports = mongoose.model('bear', bearSchema);
 
 
 
