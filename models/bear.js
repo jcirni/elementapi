@@ -3,13 +3,10 @@
 //Copyright Element Technologies, inc.
 
 var mongoose = require('mongoose');
-var schema = mongoose.Schema;
+var Schema = mongoose.Schema;
 
-var bearSchema = new schema({
+var bearSchema = new Schema({
    name: String
 });
 
-module.exports = mongoose.model('bear', bearSchema);
-
-
-
+module.exports = mongoose.model('Bear', bearSchema);
