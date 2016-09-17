@@ -6,10 +6,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var meterSchema = new Schema({
-   //type: String,
-   devID: String,
-   //Data: Number,
-   //Timestamp: String
+    devID: String
 
 });
 

@@ -49,7 +49,7 @@ router.route('/rest')
             if (err)
                 res.send(err);
             
-            res.json({ message: 'New entry recorded! ' + req.body.name });
+            res.json({ message: 'New entry recorded! ' + req.body.devID });
         });
     })
 //GET all http://localhost:8080/api/rest
@@ -64,9 +64,9 @@ router.route('/rest')
 
 //single GET
 //GET all http://localhost:8080/api/rest/:devID
-router.route('/api/rest/:devID')
+router.route('/api/rest/:mngID')
     .get(function(req, res) {
-        Mtr.findById(req.params.devID, function(err, mtr) {
+        Mtr.findById(req.params.mngID, function(err, mtr) {
             if (err)
                 res.send(err);
             res.send(mtr);
@@ -75,10 +75,10 @@ router.route('/api/rest/:devID')
 
     .put(function(req, res) {
         //find target device
-        Mtr.findById(req.params.bear_id, function(err, mtr) {
+        Mtr.findById(req.params.mngID, function(err, mtr) {
             if (err)
                 res.send(err);
-            mtr.devID = req.body.devID;
+            mtr.devID = req.body.mngID;
             
             //save new devID
             mtr.save(function(err) {
