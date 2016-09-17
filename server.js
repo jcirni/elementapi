@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://security:start123@ds147975.mlab.com:47975/elementdb');
-var Bear = require('./models/bear');
+var Mtr = require('./models/mtr');
 
 
 var port = process.env.PORT || 8080;        // set our port
@@ -37,30 +37,58 @@ router.get('/', function(req, res) {
 });
 
     
-//routes with /bears 
-//POST http://localhost:8080/api/bear
-router.route('/bears')
-    //create a bear at POST ()
+//routes with /rest 
+//POST http://localhost:8080/api/rest
+router.route('/rest')
+    //create a new time series doc for new hour at POST ()
     .post(function(req, res) {
-        var bear = new Bear();
-        bear.name = req.body.name; //bears name is the request's name
-        // save bear and check for errors
-        bear.save(function(err) {
+        var mtr = new Mtr();
+        mtr.devID = req.body.devID; //meter id is the request's name. Should be derived from FW
+        // save meter and check for errors
+        mtr.save(function(err) {
             if (err)
                 res.send(err);
             
-            res.json({ message: 'Bear created! ' + req.body.name });
+            res.json({ message: 'New entry recorded! ' + req.body.name });
+        });
+    })
+//GET all http://localhost:8080/api/rest
+    .get(function(req, res) {
+        Mtr.find(function(err, meters) {
+            if (err)
+                res.send(err);
+            
+            res.json(meters);     
+        });
+    });
+
+//single GET
+//GET all http://localhost:8080/api/rest/:devID
+router.route('/api/rest/:devID')
+    .get(function(req, res) {
+        Mtr.findById(req.params.devID, function(err, mtr) {
+            if (err)
+                res.send(err);
+            res.send(mtr);
         });
     })
 
-    .get(function(req, res) {
-        Bear.find(function(err, bears) {
+    .put(function(req, res) {
+        //find target device
+        Mtr.findById(req.params.bear_id, function(err, mtr) {
             if (err)
                 res.send(err);
+            mtr.devID = req.body.devID;
             
-            res.json(bears);     
+            //save new devID
+            mtr.save(function(err) {
+                if (err)
+                    res.send(err);
+                res.json({ message: 'Meter updated!'});
+            });
         });
-    });
+});
+
     // REGISTER OUR ROUTES -------------------------------
     // all of our routes will be prefixed with /api
 app.use('/api', router);
