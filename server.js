@@ -1,5 +1,5 @@
-// server.js
-//Author: Joseph Cirnigliaro
+//server.js
+//Authors: Joseph Cirnigliaro
 //Copyright Element Technologies, Inc.
 
 //init
@@ -40,22 +40,29 @@ router.get('/', function(req, res) {
 //routes with /rest 
 //POST http://localhost:8080/api/rest
 router.route('/rest')
-    //create a new time series doc for new hour at POST ()
+    
+//create a new time series doc for new hour at POST ()
     .post(function(req, res) {
         var mtr = new Mtr();
-        mtr.devID = req.body.devID; //meter id is the request's name. Should be derived from FW
+        
+    //look to generalize, and open calls from an application layer to server layer
+    mtr.devID = req.body.devID; //meter id is the request's name. Should be derived from FW
+    mtr.timeStamp_minute = req.body.timeStamp_minute;
+    mtr.type = req.body.type;h
+    mtr.power = req.body.power;
+    
         // save meter and check for errors
         mtr.save(function(err) {
             if (err)
                 res.send(err);
             
-            res.json({ message: 'New entry recorded! ' + req.body.devID });
+            res.json({ message: 'New entry recorded! ' + req.body.devID + ' ' + req.body.power });
         });
     })
 //GET all http://localhost:8080/api/rest
     .get(function(req, res) {
         Mtr.find(function(err, meters) {
-            if (err)
+            if (err)d
                 res.send(err);
             
             res.json(meters);     
@@ -72,15 +79,14 @@ router.route('/api/rest/:mngID')
             res.send(mtr);
         });
     })
-
+    //updates device with devID
     .put(function(req, res) {
         //find target device
-        Mtr.findById(req.params.mngID, function(err, mtr) {
+        Mtr.findById(req.params.devID, function(err, mtr) {
             if (err)
                 res.send(err);
-            mtr.devID = req.body.mngID;
             
-            //save new devID
+            mtr.values = req.body.values;
             mtr.save(function(err) {
                 if (err)
                     res.send(err);
@@ -91,6 +97,11 @@ router.route('/api/rest/:mngID')
 
     // REGISTER OUR ROUTES -------------------------------
     // all of our routes will be prefixed with /api
+
+app.get('*', function(req, res) {
+  res.sendfile('./public/');
+ });
+
 app.use('/api', router);
 
     // START THE SERVER
