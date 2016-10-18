@@ -1,5 +1,5 @@
 queue()
-    .defer(d3.json, "/api/data")
+    .defer(d3.json, "/api/rest")
     .await(makeGraphs);
 
 function makeGraphs(error, apiData) {
@@ -8,7 +8,7 @@ function makeGraphs(error, apiData) {
 	var dataSet = apiData;
 	var dateFormat = d3.time.format("%m/%d/%Y");
 	dataSet.forEach(function(d) {
-		d.date_posted = dateFormat.parse(d.date_posted);
+		d.timeStamp_minute = dateFormat.parse(d.date_posted);
 				d.date_posted.setDate(1);
 		d.total_donations = +d.total_donations;
 	});
