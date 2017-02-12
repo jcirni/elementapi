@@ -57,25 +57,25 @@ app.post('/api/rest', function(req, res) {
     mtr.devID = req.body.devID; //meter id is the request's name. Should be derived from FW?
     mtr.timeStamp_minute = req.body.timeStamp_minute;
     mtr.type = req.body.type;
-    mtr.values = req.body.values;
+    mtr.current = req.body.current;
     
         // save meter and check for errors
         mtr.save(function(err) {
             if (err)
                 res.send(err);
             
-            res.json({ message: 'New entry recorded! ' + req.body.devID + ' ' + req.body.values });
+            res.json({ message: 'New entry recorded! ' + req.body.devID + ' ' + req.body.current });
         });
 });
 
 app.get('/api/rest', function(req, res) {
     Mtr.find(function(err, meters) {
-            if (err)
-                res.send(err);
-            
-            res.json(meters);     
-        });
+        if (err)
+            res.send(err);
+
+        res.json(meters);     
     });
+});
 /*    
 //routes with /rest 
 //POST http://localhost:8080/api/rest
