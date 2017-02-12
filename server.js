@@ -57,11 +57,11 @@ app.post('/api/rest', function(req, res) {
     mtr.devID = req.body.devID; //meter id is the request's name. Should be derived from FW?
     mtr.timeStamp_minute = req.body.timeStamp_minute;
     mtr.type = req.body.type;
-<<<<<<< HEAD
+
     mtr.current = req.body.current;
     
         // save meter and check for errors
-=======
+
     mtr.values = req.body.values;
     //should include time stamp formatting
     if (!(mtr.devID || mtr.timeStamp_minute || mtr.type || mtr.values)) {
@@ -69,17 +69,17 @@ app.post('/api/rest', function(req, res) {
         
     } else {
         // save meter and check for errors on save
->>>>>>> d963648872883a012dda638863c3d663e3ac55a2
+
         mtr.save(function(err) {
             if (err) {
                 res.send(err);
-<<<<<<< HEAD
+
             
             res.json({ message: 'New entry recorded! ' + req.body.devID + ' ' + req.body.current });
-=======
+
             }
             res.json({ message: 'New entry recorded! ' + mtr.devID+ ' at time ' + mtr.timeStamp_minute });
->>>>>>> d963648872883a012dda638863c3d663e3ac55a2
+
         });
         
     }
@@ -93,9 +93,9 @@ app.get('/api/rest', function(req, res) {
 
         res.json(meters);     
     });
-<<<<<<< HEAD
+
 });
-=======
+
 //single get by devID
 app.get('/api/rest/:devID', function(req, res){
     Mtr.findOne(req.params.devID, function(err, mtr) {
@@ -173,7 +173,7 @@ app.put('/api/rest/:devID/:timeStamp_minute', function(req, res) {
     });
 });
 
->>>>>>> d963648872883a012dda638863c3d663e3ac55a2
+
 /*    
 //routes with /rest 
 //POST http://localhost:8080/api/rest
